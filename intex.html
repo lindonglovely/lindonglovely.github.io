@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SM软件纪念馆</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#030608;
+--bg2:#0a1118;
+--txt:#c8e6ff;
+--txt2:#6a9ec0;
+--acc:#00f0ff;
+--acc2:#0066ff;
+--glow:rgba(0,240,255,.6);
+--dim:rgba(0,240,255,.15);
+--brd:rgba(0,240,255,.25);
+--card:rgba(5,12,20,.85);
+--scan:rgba(0,240,255,.04);
+--font1:'Orbitron',monospace;
+--font2:'Share Tech Mono',monospace;
+}
+[data-t="g"]{--bg:#030803;--bg2:#081208;--txt:#c8ffd8;--txt2:#5ca87a;--acc:#00ff88;--acc2:#00aa55;--glow:rgba(0,255,136,.6);--dim:rgba(0,255,136,.15);--brd:rgba(0,255,136,.25);--card:rgba(5,15,8,.85);--scan:rgba(0,255,136,.04)}
+[data-t="b"]{--bg:#03060f;--bg2:#08101f;--txt:#c8dcff;--txt2:#5c7ea8;--acc:#4d9fff;--acc2:#0055ff;--glow:rgba(77,159,255,.6);--dim:rgba(77,159,255,.15);--brd:rgba(77,159,255,.25);--card:rgba(5,10,20,.85);--scan:rgba(77,159,255,.04)}
+[data-t="k"]{--bg:#01040d;--bg2:#020a1a;--txt:#d0dcff;--txt2:#5060a0;--acc:#2a55ff;--acc2:#0022cc;--glow:rgba(42,85,255,.6);--dim:rgba(42,85,255,.15);--brd:rgba(42,85,255,.25);--card:rgba(3,6,15,.9);--scan:rgba(42,85,255,.04)}
+[data-t="r"]{--bg:#0d0303;--bg2:#1a0808;--txt:#ffd8d8;--txt2:#a85c5c;--acc:#ff2a2a;--acc2:#cc0000;--glow:rgba(255,42,42,.6);--dim:rgba(255,42,42,.15);--brd:rgba(255,42,42,.25);--card:rgba(20,5,5,.85);--scan:rgba(255,42,42,.04)}
+[data-t="p"]{--bg:#0a030f;--bg2:#150820;--txt:#f0d8ff;--txt2:#9a5ca8;--acc:#d500ff;--acc2:#8800cc;--glow:rgba(213,0,255,.6);--dim:rgba(213,0,255,.15);--brd:rgba(213,0,255,.25);--card:rgba(15,5,20,.85);--scan:rgba(213,0,255,.04)}
+[data-t="gold"]{--bg:#0d0a03;--bg2:#1a1508;--txt:#fff4d8;--txt2:#a8965c;--acc:#ffcc00;--acc2:#cc9900;--glow:rgba(255,204,0,.6);--dim:rgba(255,204,0,.15);--brd:rgba(255,204,0,.25);--card:rgba(20,15,5,.85);--scan:rgba(255,204,0,.04)}
+[data-t="o"]{--bg:#0d0603;--bg2:#1a0d08;--txt:#ffe8d8;--txt2:#a8705c;--acc:#ff6a00;--acc2:#cc4400;--glow:rgba(255,106,0,.6);--dim:rgba(255,106,0,.15);--brd:rgba(255,106,0,.25);--card:rgba(20,10,5,.85);--scan:rgba(255,106,0,.04)}
+[data-t="pink"]{--bg:#0d0308;--bg2:#1a0815;--txt:#ffd8f0;--txt2:#a85c9a;--acc:#ff0088;--acc2:#cc0066;--glow:rgba(255,0,136,.6);--dim:rgba(255,0,136,.15);--brd:rgba(255,0,136,.25);--card:rgba(20,5,15,.85);--scan:rgba(255,0,136,.04)}
+[data-t="w"]{--bg:#f0f4f8;--bg2:#e0e8f0;--txt:#1a1a2e;--txt2:#666;--acc:#007aff;--acc2:#0055cc;--glow:rgba(0,122,255,.3);--dim:rgba(0,122,255,.1);--brd:rgba(0,122,255,.3);--card:rgba(255,255,255,.9);--scan:rgba(0,0,0,.02)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+background:var(--bg);
+color:var(--txt);
+font-family:var(--font2);
+min-height:100vh;
+overflow-x:hidden;
+transition:background .6s,color .6s;
+background-image:
+linear-gradient(var(--dim) 1px,transparent 1px),
+linear-gradient(90deg,var(--dim) 1px,transparent 1px);
+background-size:40px 40px;
+}
+body::before{
+content:"";
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scan) 2px,var(--scan) 4px);
+pointer-events:none;
+z-index:9998;
+opacity:.6;
+}
+body::after{
+content:"";
+position:fixed;
+top:0;left:0;right:0;
+height:2px;
+background:linear-gradient(90deg,transparent,var(--acc),transparent);
+animation:scanDown 6s linear infinite;
+pointer-events:none;
+z-index:9999;
+box-shadow:0 0 20px var(--glow),0 0 40px var(--glow);
+}
+@keyframes scanDown{0%{top:-2px}100%{top:100vh}}
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:30px 20px;
+position:relative;
+text-align:center;
+}
+.hero::before{
+content:"";
+position:absolute;
+width:min(500px,80vw);
+height:min(500px,80vw);
+background:radial-gradient(circle,var(--glow) 0%,transparent 70%);
+border-radius:50%;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+animation:breath 5s ease-in-out infinite;
+pointer-events:none;
+filter:blur(40px);
+}
+@keyframes breath{
+0%,100%{opacity:.2;transform:translate(-50%,-50%) scale(.9)}
+50%{opacity:.5;transform:translate(-50%,-50%) scale(1.1)}
+}
+.ring{
+position:absolute;
+width:min(400px,70vw);
+height:min(400px,70vw);
+border:1px solid var(--brd);
+border-radius:50%;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+animation:spin 20s linear infinite;
+pointer-events:none;
+}
+.ring::before{
+content:"";
+position:absolute;
+top:-4px;left:50%;
+width:8px;height:8px;
+background:var(--acc);
+border-radius:50%;
+box-shadow:0 0 15px var(--acc),0 0 30px var(--acc);
+transform:translateX(-50%);
+}
+.ring2{
+width:min(320px,56vw);
+height:min(320px,56vw);
+animation:spinR 15s linear infinite;
+border-style:dashed;
+opacity:.4;
+}
+.ring2::before{
+background:var(--acc2);
+box-shadow:0 0 10px var(--acc2);
+width:6px;height:6px;
+}
+@keyframes spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes spinR{from{transform:translate(-50%,-50%) rotate(360deg)}to{transform:translate(-50%,-50%) rotate(0)}}
+.title{
+font-family:var(--font1);
+font-size:clamp(28px,7vw,48px);
+font-weight:900;
+letter-spacing:6px;
+color:var(--acc);
+text-shadow:
+0 0 10px var(--glow),
+0 0 30px var(--glow),
+0 0 60px var(--dim),
+0 0 100px var(--dim);
+margin-bottom:8px;
+position:relative;
+z-index:2;
+transition:color .5s,text-shadow .5s;
+animation:glitch 4s infinite;
+}
+@keyframes glitch{
+0%,90%,100%{transform:translate(0)}
+92%{transform:translate(-2px,1px)}
+94%{transform:translate(2px,-1px)}
+96%{transform:translate(-1px,-2px)}
+98%{transform:translate(1px,2px)}
+}
+.title::before,.title::after{
+content:"「";
+color:var(--acc2);
+font-weight:300;
+margin-right:12px;
+opacity:.7;
+}
+.title::after{
+content:"」";
+margin-left:12px;
+margin-right:0;
+}
+.sub{
+font-size:clamp(12px,3vw,15px);
+color:var(--txt2);
+line-height:1.9;
+letter-spacing:1px;
+margin-bottom:6px;
+position:relative;
+z-index:2;
+transition:color .5s;
+}
+.subEn{
+font-family:var(--font1);
+font-size:clamp(9px,2.2vw,11px);
+color:var(--txt2);
+opacity:.7;
+letter-spacing:2px;
+margin-bottom:30px;
+position:relative;
+z-index:2;
+transition:color .5s;
+}
+.info{
+font-size:clamp(11px,2.8vw,13px);
+color:#f5c542;
+line-height:2.2;
+letter-spacing:2px;
+margin-bottom:50px;
+position:relative;
+z-index:2;
+text-shadow:0 0 8px rgba(245,197,66,.3);
+}
+.info span{
+display:block;
+font-size:11px;
+opacity:.7;
+}
+.btns{
+display:flex;
+gap:16px;
+flex-wrap:wrap;
+justify-content:center;
+position:relative;
+z-index:2;
+}
+.btn{
+font-family:var(--font1);
+font-size:13px;
+font-weight:700;
+letter-spacing:3px;
+padding:15px 34px;
+border:1px solid var(--acc);
+border-radius:3px;
+text-decoration:none;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+transition:all .3s;
+background:transparent;
+color:var(--acc);
+text-transform:uppercase;
+}
+.btn::before{
+content:"";
+position:absolute;
+top:0;left:-100%;
+width:100%;height:100%;
+background:linear-gradient(90deg,transparent,var(--glow),transparent);
+transition:.6s;
+}
+.btn:hover::before{left:100%}
+.btn-p{
+background:var(--acc2);
+color:#fff;
+box-shadow:0 0 20px var(--glow),inset 0 0 15px var(--dim);
+border-color:var(--acc);
+}
+.btn-p:hover{
+box-shadow:0 0 40px var(--glow),inset 0 0 25px var(--glow);
+transform:translateY(-3px);
+background:var(--acc);
+color:#000;
+}
+.btn-s:hover{
+background:var(--dim);
+box-shadow:0 0 25px var(--glow);
+transform:translateY(-3px);
+}
+.sec{
+max-width:680px;
+margin:0 auto 60px;
+padding:0 20px;
+}
+.secTitle{
+font-family:var(--font1);
+text-align:center;
+font-size:clamp(16px,4vw,20px);
+font-weight:700;
+letter-spacing:6px;
+color:var(--acc);
+text-shadow:0 0 15px var(--glow);
+padding-bottom:16px;
+border-bottom:1px solid var(--brd);
+margin-bottom:25px;
+position:relative;
+}
+.secTitle::before,.secTitle::after{
+content:"";
+position:absolute;
+bottom:-1px;
+width:60px;height:2px;
+background:var(--acc);
+box-shadow:0 0 15px var(--acc),0 0 30px var(--glow);
+}
+.secTitle::before{left:0}
+.secTitle::after{right:0}
+.list{
+list-style:none;
+background:var(--card);
+border:1px solid var(--brd);
+border-radius:6px;
+overflow:hidden;
+backdrop-filter:blur(12px);
+box-shadow:0 0 30px rgba(0,0,0,.6),inset 0 0 60px var(--scan);
+}
+.item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:16px 18px;
+border-bottom:1px solid var(--brd);
+transition:all .3s;
+position:relative;
+gap:12px;
+}
+.item:hover{
+background:var(--dim);
+border-left:3px solid var(--acc);
+padding-left:21px;
+}
+.item:last-child{border-bottom:none}
+.item::after{
+content:"";
+position:absolute;
+left:0;top:0;bottom:0;
+width:0;
+background:linear-gradient(90deg,var(--acc),transparent);
+opacity:.1;
+transition:width .3s;
+}
+.item:hover::after{width:100%}
+.fi{
+display:flex;
+align-items:center;
+gap:14px;
+flex:1;
+min-width:0;
+}
+.ico{
+width:38px;height:38px;
+border-radius:4px;
+object-fit:cover;
+flex-shrink:0;
+border:1px solid var(--brd);
+background:var(--bg2);
+padding:3px;
+box-shadow:0 0 10px var(--dim);
+transition:all .3s;
+}
+.item:hover .ico{
+box-shadow:0 0 20px var(--glow);
+border-color:var(--acc);
+}
+.fd{
+display:flex;
+flex-direction:column;
+min-width:0;
+gap:4px;
+}
+.fn{
+font-family:var(--font1);
+font-size:14px;
+font-weight:700;
+color:var(--txt);
+text-decoration:none;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+transition:all .3s;
+letter-spacing:1px;
+}
+.fn:hover{
+color:var(--acc);
+text-shadow:0 0 10px var(--glow);
+}
+.fn.d{
+color:var(--txt2)!important;
+opacity:.4;
+cursor:not-allowed;
+text-shadow:none!important;
+}
+.fm{
+font-size:11px;
+color:var(--txt2);
+font-family:var(--font2);
+letter-spacing:1px;
+opacity:.7;
+transition:all .3s;
+}
+.fm.d{opacity:.25}
+.act{flex-shrink:0}
+.dl{
+font-family:var(--font1);
+font-size:11px;
+font-weight:700;
+letter-spacing:2px;
+padding:8px 16px;
+border:1px solid var(--acc);
+border-radius:3px;
+text-decoration:none;
+color:var(--acc);
+background:transparent;
+transition:all .3s;
+white-space:nowrap;
+text-transform:uppercase;
+}
+.dl:hover{
+background:var(--acc);
+color:#000;
+box-shadow:0 0 20px var(--glow);
+}
+.dl.d{
+border-color:var(--brd);
+color:var(--txt2);
+opacity:.3;
+cursor:not-allowed;
+pointer-events:none;
+}
+.tBtn{
+position:fixed;
+top:18px;right:18px;
+width:46px;height:46px;
+border-radius:50%;
+background:var(--card);
+border:1px solid var(--acc);
+color:var(--acc);
+font-size:22px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+z-index:5000;
+box-shadow:0 0 20px var(--glow),inset 0 0 10px var(--dim);
+transition:all .3s;
+backdrop-filter:blur(10px);
+}
+.tBtn:active{transform:scale(.9)}
+.tBtn:hover{
+background:var(--acc);
+color:#000;
+box-shadow:0 0 35px var(--glow);
+transform:rotate(90deg) scale(1.05);
+}
+.tPanel{
+position:fixed;
+top:74px;right:18px;
+width:170px;
+background:var(--card);
+border:1px solid var(--acc);
+border-radius:8px;
+padding:14px;
+z-index:4999;
+backdrop-filter:blur(20px);
+box-shadow:0 0 40px rgba(0,0,0,.8),0 0 20px var(--glow);
+transform:translateX(130%) scale(.9);
+opacity:0;
+transition:all .4s cubic-bezier(.4,0,.2,1);
+pointer-events:none;
+}
+.tPanel.on{
+transform:translateX(0) scale(1);
+opacity:1;
+pointer-events:auto;
+}
+.tPanel h4{
+font-family:var(--font1);
+font-size:10px;
+color:var(--txt2);
+text-align:center;
+letter-spacing:3px;
+margin-bottom:10px;
+padding-bottom:8px;
+border-bottom:1px solid var(--brd);
+font-weight:400;
+}
+.tb{
+width:100%;
+padding:7px 10px;
+margin-bottom:5px;
+background:transparent;
+border:1px solid var(--brd);
+border-radius:3px;
+color:var(--txt2);
+font-family:var(--font2);
+font-size:11px;
+letter-spacing:1px;
+cursor:pointer;
+text-align:left;
+transition:all .25s;
+}
+.tb:hover,.tb.a{
+background:var(--dim);
+color:var(--acc);
+border-color:var(--acc);
+box-shadow:0 0 12px var(--glow);
+}
+.cBox{
+display:flex;
+gap:6px;
+align-items:center;
+margin-top:8px;
+padding-top:8px;
+border-top:1px solid var(--brd);
+}
+.cBox input[type="color"]{
+width:32px;height:32px;
+border:1px solid var(--brd);
+border-radius:3px;
+background:transparent;
+cursor:pointer;
+padding:0;
+flex-shrink:0;
+}
+.cBox input[type="text"]{
+flex:1;
+min-width:0;
+padding:5px 6px;
+font-size:10px;
+font-family:var(--font2);
+background:rgba(0,0,0,.3);
+border:1px solid var(--brd);
+border-radius:3px;
+color:var(--txt);
+text-align:center;
+letter-spacing:1px;
+outline:none;
+}
+.cBox input[type="text"]:focus{
+border-color:var(--acc);
+box-shadow:0 0 8px var(--glow);
+}
+.top{
+position:fixed;
+bottom:24px;
+right:24px;
+width:48px;height:48px;
+border-radius:50%;
+background:var(--card);
+border:1px solid var(--acc);
+color:var(--acc);
+font-size:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+text-decoration:none;
+z-index:4998;
+box-shadow:0 0 20px var(--glow);
+transition:all .3s;
+backdrop-filter:blur(10px);
+}
+.top:hover{
+background:var(--acc);
+color:#000;
+transform:scale(1.1) translateY(-3px);
+box-shadow:0 0 35px var(--glow);
+}
+.foot{
+text-align:center;
+padding:30px 20px 80px;
+font-size:10px;
+color:var(--txt2);
+opacity:.4;
+letter-spacing:2px;
+font-family:var(--font1);
+}
+@media(max-width:480px){
+.title{letter-spacing:3px}
+.btn{padding:13px 24px;font-size:11px;letter-spacing:2px}
+.item{padding:13px 14px}
+.item:hover{padding-left:17px}
+.ico{width:32px;height:32px}
+.fn{font-size:12px}
+.fm{font-size:10px}
+.dl{padding:6px 12px;font-size:10px}
+.tPanel{width:150px;right:14px}
+.tBtn{top:14px;right:14px;width:42px;height:42px;font-size:19px}
+.ring,.ring2{display:none}
+}
+</style>
+</head>
+<body data-t="c">
+
+<div class="tBtn" id="tBtn">⚙</div>
+
+<div class="tPanel" id="tPanel">
+<h4>THEME SELECT</h4>
+<button class="tb a" onclick="st('c',this)">▸ 深海脉冲</button>
+<button class="tb" onclick="st('g',this)">▸ 翠绿射线</button>
+<button class="tb" onclick="st('b',this)">▸ 深空蓝</button>
+<button class="tb" onclick="st('k',this)">▸ 克莱因深渊</button>
+<button class="tb" onclick="st('r',this)">▸ 猩红裂变</button>
+<button class="tb" onclick="st('p',this)">▸ 赛博紫晶</button>
+<button class="tb" onclick="st('gold',this)">▸ 暗金反应堆</button>
+<button class="tb" onclick="st('o',this)">▸ 熔岩橙</button>
+<button class="tb" onclick="st('pink',this)">▸ 赛博粉</button>
+<button class="tb" onclick="st('w',this)">▸ 纯白极简</button>
+<div class="cBox">
+<input type="color" id="cp" value="#00f0ff">
+<input type="text" id="ct" value="#00f0ff" maxlength="7">
+</div>
+</div>
+
+<div class="hero">
+<div class="ring"></div>
+<div class="ring ring2"></div>
+<h1 class="title">SM软件纪念馆</h1>
+<div class="sub">SmChat是一个优良的聊天软件。</div>
+<div class="subEn">SMCHAT IS AN EXCELLENT CHAT SOFTWARE.</div>
+<div class="info">
+软件创始人：舒敏
+<span>网页设计：Lind</span>
+</div>
+<div class="btns">
+<a href="#list" class="btn btn-p">下载历史版本</a>
+<a href="#" class="btn btn-s" onclick="alert('SM软件发展历程：\n\n从最初的简单通讯工具，到如今功能完善的SM系列。\n每一个版本都承载着开发者的心血与思考。\n\n点击「下载历史版本」即可回顾各版本。')">了解过程</a>
+</div>
+</div>
+
+<div class="sec" id="list">
+<div class="secTitle">SM VERSION ARCHIVE</div>
+<ul class="list">
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/iKlv24apg6uh" class="fn" target="_blank">SM1.0.apk · 信聊</a>
+<span class="fm">94.3 KB · 14分钟前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/iKlv24apg6uh" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/iSAZn4aoz8tg" class="fn" target="_blank">SM1.1.apk</a>
+<span class="fm">155.0 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/iSAZn4aoz8tg" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<span class="fn d">SM1.2.apk</span>
+<span class="fm d">暂无资源</span>
+</div>
+</div>
+<div class="act"><span class="dl d">不可用</span></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<span class="fn d">SM1.3.apk</span>
+<span class="fm d">因版本问题暂时无法获取资源</span>
+</div>
+</div>
+<div class="act"><span class="dl d">不可用</span></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<span class="fn d">SM1.4.apk</span>
+<span class="fm d">因版本问题暂时无法获取资源</span>
+</div>
+</div>
+<div class="act"><span class="dl d">不可用</span></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<span class="fn d">SM1.5.apk</span>
+<span class="fm d">因版本问题暂时无法获取资源</span>
+</div>
+</div>
+<div class="act"><span class="dl d">不可用</span></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/i4X3i4aoz8pc" class="fn" target="_blank">SM1.6.apk</a>
+<span class="fm">195.3 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/i4X3i4aoz8pc" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/i3k6D49zx91c" class="fn" target="_blank">SM1.7.apk</a>
+<span class="fm">203.4 KB · 6天前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/i3k6D49zx91c" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/itZ7d4a6qbeh" class="fn" target="_blank">SM1.8.apk</a>
+<span class="fm">211.6 KB · 4天前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/itZ7d4a6qbeh" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/ify9T4a6qbib" class="fn" target="_blank">SM1.9-1.apk</a>
+<span class="fm">211.6 KB · 4天前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/ify9T4a6qbib" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/iUMq54aoz8re" class="fn" target="_blank">SM2.0.apk</a>
+<span class="fm">215.6 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/iUMq54aoz8re" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/iRDYT4aoyh6b" class="fn" target="_blank">SM2.1.apk</a>
+<span class="fm">223.6 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/iRDYT4aoyh6b" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/idQY14abqfpc" class="fn" target="_blank">SM2.2.apk</a>
+<span class="fm">223.6 KB · 3天前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/idQY14abqfpc" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/ipcnf4aoyh7c" class="fn" target="_blank">SM2.3.apk</a>
+<span class="fm">223.6 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/ipcnf4aoyh7c" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/icSld4aoyhaf" class="fn" target="_blank">SM2.5.apk</a>
+<span class="fm">271.8 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/icSld4aoyhaf" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/iKQIA4aoyhch" class="fn" target="_blank">SM2.6.apk</a>
+<span class="fm">271.8 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/iKQIA4aoyhch" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/izk4l4aoyhfa" class="fn" target="_blank">SM2.7.apk</a>
+<span class="fm">271.8 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/izk4l4aoyhfa" class="dl" target="_blank">下载</a></div>
+</li>
+
+<li class="item">
+<div class="fi">
+<img class="ico" src="chat.png" alt="">
+<div class="fd">
+<a href="https://lindvip.lanzoul.com/inr804aoyhgb" class="fn" target="_blank">SM2.8.apk</a>
+<span class="fm">288.0 KB · 8小时前</span>
+</div>
+</div>
+<div class="act"><a href="https://lindvip.lanzoul.com/inr804aoyhgb" class="dl" target="_blank">下载</a></div>
+</li>
+
+</ul>
+</div>
+
+<a href="#" class="top">↑</a>
+
+<div class="foot">SM SOFTWARE MEMORIAL HALL · DESIGNED BY LIND</div>
+
+<script>
+const tb=document.getElementById('tBtn'),tp=document.getElementById('tPanel');
+tb.addEventListener('click',()=>tp.classList.toggle('on'));
+document.addEventListener('click',e=>{
+if(!tp.contains(e.target)&&!tb.contains(e.target))tp.classList.remove('on');
+});
+function st(t,el){
+document.body.setAttribute('data-t',t);
+document.querySelectorAll('.tb').forEach(b=>b.classList.remove('a'));
+if(el)el.classList.add('a');
+const cs=getComputedStyle(document.documentElement);
+const ac=cs.getPropertyValue('--acc').trim();
+document.getElementById('cp').value=ac;
+document.getElementById('ct').value=ac;
+}
+const cp=document.getElementById('cp'),ct=document.getElementById('ct');
+cp.addEventListener('input',e=>{ct.value=e.target.value;ac(e.target.value)});
+ct.addEventListener('input',e=>{
+let v=e.target.value;
+if(!v.startsWith('#'))v='#'+v;
+if(/^#[0-9A-Fa-f]{6}$/.test(v)){cp.value=v;ac(v)}
+});
+function ac(c){
+const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
+document.documentElement.style.setProperty('--acc',c);
+document.documentElement.style.setProperty('--glow',`rgba(${r},${g},${b},.6)`);
+document.documentElement.style.setProperty('--dim',`rgba(${r},${g},${b},.15)`);
+document.documentElement.style.setProperty('--brd',`rgba(${r},${g},${b},.25)`);
+document.querySelectorAll('.tb').forEach(b=>b.classList.remove('a'));
+document.body.setAttribute('data-t','custom');
+}
+</script>
+</body>
+</html>
